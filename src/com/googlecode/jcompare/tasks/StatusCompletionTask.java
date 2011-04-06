@@ -71,7 +71,7 @@ public class StatusCompletionTask extends AbstractTask {
 
             if (null != leftState && null != rightState) {
                 item.setLeftState(leftState);
-                item.setRightData(rightState);
+                item.setRightState(rightState);
             }
         }
 
@@ -92,9 +92,9 @@ public class StatusCompletionTask extends AbstractTask {
         int childCount = item.getChildCount();
         for (int i = 0; i < childCount; i++) {
             Item child = item.getChild(i);
-            if (!child.isLeaf()) {
+            //if (!child.isLeaf()) {
                 stateList.add(child.getLeftState());
-            }
+            //}
         }
 
         return stateList;
@@ -107,9 +107,9 @@ public class StatusCompletionTask extends AbstractTask {
         int childCount = item.getChildCount();
         for (int i = 0; i < childCount; i++) {
             Item child = item.getChild(i);
-            if (!child.isLeaf()) {
+            //if (!child.isLeaf()) {
                 stateList.add(child.getRightState());
-            }
+            //}
         }
 
         return stateList;

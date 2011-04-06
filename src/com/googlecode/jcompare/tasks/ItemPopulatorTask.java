@@ -88,9 +88,25 @@ public class ItemPopulatorTask extends AbstractTask {
                     item.getRightData());
         }
 
-        addItems(leftLeafChildren, rightLeafChildren, true);
-
+        List<String> leafList = addItems(leftLeafChildren, rightLeafChildren, true);
+        
         Item child;
+        
+        if( !leafList.isEmpty()) {
+            int childCount = item.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                child = item.getChild(i);
+                if (child.isLeaf()) {
+                    if (!isCancelled()) {
+                        StatusCompletionTask statusCompletionTask =
+                                new StatusCompletionTask(taskProcessor, provider, child);
+                        if (!isCancelled()) {
+                            execute(statusCompletionTask);
+                        }
+                    }
+                }
+            }
+        }
 
         if (0 == nodeList.size()) {
 
@@ -105,7 +121,7 @@ public class ItemPopulatorTask extends AbstractTask {
             int childCount = item.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 child = item.getChild(i);
-                if (false == child.isLeaf()) {
+                if (!child.isLeaf()) {
                     if (!isCancelled()) {
                         ItemPopulatorTask populator = new ItemPopulatorTask(taskProcessor, provider, child);
                         execute(populator);
@@ -169,6 +185,10 @@ public class ItemPopulatorTask extends AbstractTask {
                     ItemState itemState = provider.getState(leftPath, rightPath, leftData, rightData);
                     child.setLeftState(itemState.getLeftState());
                     child.setRightState(itemState.getRightState());
+                    
+                    System.out.println("\n\nStatus check called for: \n\tL: "
+                        + child.getLeftPath() + ":" + child.getLeftState() + "\n\tR: "
+                        + child.getRightPath() + ":" + child.getRightState());
                 }
             } else {
                 if (leftAvailable) {
@@ -177,12 +197,20 @@ public class ItemPopulatorTask extends AbstractTask {
                     child.setLeftData(leftData);
 
                     child.setRightState(StockItemStates.STATE_NOTAVAILABLE);
+                    
+                    System.out.println("\n\nStatus check called for: \n\tL: "
+                        + child.getLeftPath() + ":" + child.getLeftState() + "\n\tR: "
+                        + child.getRightPath() + ":" + child.getRightState());
                 } else {
                     child.setLeftState(StockItemStates.STATE_NOTAVAILABLE);
 
                     child.setRightState(StockItemStates.STATE_ORPHAN);
                     rightData = provider.getData(rightPath, key);
                     child.setRightData(rightData);
+                    
+                    System.out.println("\n\nStatus check called for: \n\tL: "
+                        + child.getLeftPath() + ":" + child.getLeftState() + "\n\tR: "
+                        + child.getRightPath() + ":" + child.getRightState());
                 }
             }
 

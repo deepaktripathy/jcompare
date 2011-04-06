@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,7 +88,7 @@ public final class ItemTree {
 
         public void execute(Runnable task) {
             if (null == threadPool) {
-                threadPool = Executors.newFixedThreadPool(3);
+                threadPool = Executors.newFixedThreadPool(1);
             }
             Future<?> taskFuture = threadPool.submit(task);
         }
@@ -95,6 +96,17 @@ public final class ItemTree {
         public void shutdown() {
             threadPool.shutdown();
             threadPool = null;
+        }
+        
+        public void join()
+        {
+            try {
+                if (null == threadPool) {
+                    threadPool.awaitTermination(2, TimeUnit.MINUTES);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ItemTree.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -107,10 +119,14 @@ public final class ItemTree {
                 public boolean accept(File dir, String name) {
                     File newFile = new File(dir + File.separator + name);
                     if (newFile.isDirectory()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                        String[] childList = newFile.list();
+                        if( childList.length > 0 ) {
+                            return true;
+                        }
+                    } 
+                    
+                    return false;
+                    
                 }
             });
             ArrayList<String> list = new ArrayList<String>();
@@ -130,8 +146,13 @@ public final class ItemTree {
                     if (newFile.isFile()) {
                         return true;
                     } else {
-                        return false;
+                        String[] childList = newFile.list();
+                        if( childList.length == 0 ) {
+                            return true;
+                        }
                     }
+                    
+                    return false;
                 }
             });
             ArrayList<String> list = new ArrayList<String>();
@@ -151,7 +172,61 @@ public final class ItemTree {
         }
 
         public ItemState getState(List<State> leftStateList, List<State> rightStateList, Object leftData, Object rightData) {
-            return null;
+            
+            
+            ItemState itemState;
+            
+            if( leftStateList.isEmpty() && rightStateList.isEmpty())
+            {
+                itemState = getState( leftData.toString(), rightData.toString(), leftData, rightData);
+            } else {
+                
+                itemState = new ItemState();
+                itemState.setLeftState(determineStatus(leftStateList));
+                itemState.setRightState(determineStatus(rightStateList));
+            }
+            
+            return itemState;
+        }
+        
+        public State determineStatus(List<State> stateList) {
+            
+            boolean uncheckedStatus = stateExists(stateList, StockItemStates.STATE_UNCHECKED);   
+            if( uncheckedStatus ) {
+                return StockItemStates.STATE_UNCHECKED;
+            }
+            
+            boolean newStatus = stateExists(stateList, newState);            
+            boolean oldStatus = stateExists(stateList, oldState);         
+            boolean sameStatus = stateExists(stateList, sameState);
+            
+            State state;
+            if( newStatus && oldStatus) {
+                state = newOldState;
+            } else {
+                if( newStatus) {
+                    state = newState;
+                } else if ( oldStatus) {
+                    state = oldState;
+                } else if ( sameStatus) {
+                    state = sameState;
+                } else {
+                    state = StockItemStates.STATE_UNCHECKED;
+                }
+            }
+            
+            return state;
+        }
+        
+        public boolean stateExists(List<State> stateList, State state) {
+            boolean status = false;
+            for( State stateItem : stateList ) {
+                if( stateItem == state ) {
+                    status =  true;
+                }
+            }
+            
+            return status;
         }
 
         public static class NewState implements Item.State {
@@ -172,9 +247,31 @@ public final class ItemTree {
             
         }
 
+        public static class NewOldState implements Item.State {
+
+            @Override
+            public String toString() {
+                return "NewOldState";
+            }
+            
+        }
+
+        public static class SameState implements Item.State {
+
+            @Override
+            public String toString() {
+                return "SameState";
+            }
+            
+        }
+
         private final Item.State newState = new NewState();
 
         private final Item.State oldState = new OldState();
+
+        private final Item.State newOldState = new NewOldState();
+
+        private final Item.State sameState = new SameState();
 
         public ItemState getState(String leftPath, String rightPath, Object leftData, Object rightData) {
             File leftFile = (File) leftData;
@@ -186,9 +283,12 @@ public final class ItemTree {
             if (leftModified > rightModified) {
                 itemState.setLeftState(newState);
                 itemState.setRightState(oldState);
-            } else {
+            } else if (leftModified < rightModified) {
                 itemState.setLeftState(oldState);
                 itemState.setRightState(newState);
+            } else {
+                itemState.setLeftState(sameState);
+                itemState.setRightState(sameState);
             }
             return itemState;
         }

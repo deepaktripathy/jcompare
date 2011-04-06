@@ -46,14 +46,16 @@ public class JCompare {
 
         MyTaskProcessor taskProcessor = new MyTaskProcessor();
 
-        ItemTree itemTree = new ItemTree("/Users/tusharjoshi/Documents", "/Users/tusharjoshi/test2", taskProcessor, new MyElementProvider());
+        ItemTree itemTree = new ItemTree("/Users/tusharjoshi/test1", "/Users/tusharjoshi/test2", taskProcessor, new MyElementProvider());
         itemTree.populate();
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(ItemTree.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        taskProcessor.join();
 
         System.out.println("Done");
         //taskProcessor.shutdown();
