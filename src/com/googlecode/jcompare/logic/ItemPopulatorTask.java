@@ -21,13 +21,15 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-package com.googlecode.jcompare.tasks;
+package com.googlecode.jcompare.logic;
 
 import com.googlecode.jcompare.model.ElementProvider;
 import com.googlecode.jcompare.model.Item;
 import com.googlecode.jcompare.model.ItemState;
 import com.googlecode.jcompare.model.impl.ItemImpl;
 import com.googlecode.jcompare.model.StockItemStates;
+import com.googlecode.jcompare.tasks.AbstractTask;
+import com.googlecode.jcompare.tasks.TaskProcessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;

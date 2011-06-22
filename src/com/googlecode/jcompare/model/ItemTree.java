@@ -27,7 +27,7 @@ import com.googlecode.jcompare.model.ElementProvider;
 import com.googlecode.jcompare.model.Item;
 import com.googlecode.jcompare.model.impl.ItemImpl;
 import com.googlecode.jcompare.model.StockItemStates;
-import com.googlecode.jcompare.tasks.ItemPopulatorTask;
+import com.googlecode.jcompare.logic.ItemPopulatorTask;
 import com.googlecode.jcompare.tasks.TaskContext;
 import com.googlecode.jcompare.tasks.TaskProcessor;
 
