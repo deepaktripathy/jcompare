@@ -27,7 +27,7 @@ import com.googlecode.jcompare.model.ElementProvider;
 import com.googlecode.jcompare.model.Item;
 import com.googlecode.jcompare.model.ItemState;
 import com.googlecode.jcompare.model.impl.ItemImpl;
-import com.googlecode.jcompare.model.impl.StockItemStates;
+import com.googlecode.jcompare.model.StockItemStates;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
