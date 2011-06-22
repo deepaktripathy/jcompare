@@ -56,18 +56,7 @@ public final class ItemTree {
 
     public void populate() {
         ItemPopulatorTask populateTask = new ItemPopulatorTask(taskProcessor, provider, item);
-        TaskContext taskContext = new TaskContext() {
-
-            private volatile boolean cancelled = false;
-
-            public boolean isCancelled() {
-                return cancelled;
-            }
-
-            public void setCancelled(boolean value) {
-                this.cancelled = value;
-            }
-        };
+        TaskContext taskContext = new DefaultTaskContext();
         populateTask.setTaskContext(taskContext);
         taskProcessor.execute(populateTask);
     }
