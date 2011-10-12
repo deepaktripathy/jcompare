@@ -25,16 +25,23 @@ package com.googlecode.jcompare.model;
 
 import com.googlecode.jcompare.logic.ItemPopulatorTask;
 import com.googlecode.jcompare.model.impl.ItemImpl;
+import com.googlecode.jcompare.tasks.Processeable;
 import com.googlecode.jcompare.tasks.TaskContext;
 import com.googlecode.jcompare.tasks.TaskProcessor;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  *
  * @author tusharjoshi
  */
-public final class ItemTree {
+public final class ItemTree implements Processeable {
 
     private Item item = null;
+    private TaskContext taskContext = null;
+    
+    private final PropertyChangeSupport propertyChangeSupport
+            = new PropertyChangeSupport(this);
     private final ElementProvider provider;
     private final TaskProcessor taskProcessor;
 
@@ -51,10 +58,22 @@ public final class ItemTree {
         item.setRightState(StockItemStates.STATE_UNCHECKED);
     }
 
-    public void populate() {
+    public void startProcess() {
         ItemPopulatorTask populateTask = new ItemPopulatorTask(taskProcessor, provider, item);
-        TaskContext taskContext = new DefaultTaskContext();
+        taskContext = new DefaultTaskContext();
         populateTask.setTaskContext(taskContext);
         taskProcessor.execute(populateTask);
+    }
+
+    public void stopProcess() {
+        taskContext.setCancelled(true);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 }

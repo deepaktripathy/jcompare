@@ -49,12 +49,12 @@ public class JCompare {
         ItemTree itemTree = new ItemTree("C:\\Users\\tushar_joshi\\Documents\\test1", 
                 "C:\\Users\\tushar_joshi\\Documents\\test2", taskProcessor, 
                 new FilesysElementProvider());
-        itemTree.populate();
+        itemTree.startProcess();
         
         ItemTree itemTree2 = new ItemTree("C:\\Users\\tushar_joshi\\Documents\\test1", 
                 "C:\\Users\\tushar_joshi\\Documents\\test2", taskProcessor, 
                 new FilesysElementProvider());
-        itemTree2.populate();
+        itemTree2.startProcess();
 
         try {
             Thread.sleep(2000);
