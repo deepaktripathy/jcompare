@@ -1,7 +1,7 @@
 /*
  * The MIT License
  * 
- * Copyright (c) <year> <copyright holders>
+ * Copyright (c) 2011 Tushar Joshi <tusharvjoshi@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
  */
 package com.googlecode.jcompare;
 
-import com.googlecode.jcompare.model.ItemTree;
 import com.googlecode.jcompare.filesys.FilesysElementProvider;
+import com.googlecode.jcompare.model.ItemTree;
 import com.googlecode.jcompare.tasks.MyTaskProcessor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +46,9 @@ public class JCompare {
 
         MyTaskProcessor taskProcessor = new MyTaskProcessor();
 
-        ItemTree itemTree = new ItemTree("/Users/tusharjoshi/test1", "/Users/tusharjoshi/test2", taskProcessor, new FilesysElementProvider());
+        ItemTree itemTree = new ItemTree("C:/Users/tushar_joshi/Documents/test1", 
+                "C:/Users/tushar_joshi/Documents/test2", taskProcessor, 
+                new FilesysElementProvider());
         itemTree.populate();
 
         try {

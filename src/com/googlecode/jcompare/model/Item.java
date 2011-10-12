@@ -1,7 +1,7 @@
 /*
  * The MIT License
  * 
- * Copyright (c) <year> <copyright holders>
+ * Copyright (c) 2011 Tushar Joshi <tusharvjoshi@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,14 +30,6 @@ import java.beans.PropertyChangeListener;
  * @author Tushar Joshi <tusharvjoshi@gmail.com>
  */
 public interface Item {
-
-    public static final int STATE_UNCHECKED = 0;
-    public static final int STATE_SAME = 1;
-    public static final int STATE_OLD = 2;
-    public static final int STATE_NEW = 3;
-    public static final int STATE_ORPHAN = 4;
-    public static final int STATE_NOTAVAILABLE = 5;
-    public static final int STATE_NEWOLD = 6;
 
     public static interface State {
     }

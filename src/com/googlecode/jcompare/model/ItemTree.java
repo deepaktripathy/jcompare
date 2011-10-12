@@ -1,7 +1,7 @@
 /*
  *  The MIT License
  * 
- *  Copyright 2010 tusharjoshi.
+ *  Copyright (c) 2011 Tushar Joshi <tusharvjoshi@gmail.com>
  * 
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,8 @@
  */
 package com.googlecode.jcompare.model;
 
-import com.googlecode.jcompare.model.ElementProvider;
-import com.googlecode.jcompare.model.Item;
-import com.googlecode.jcompare.model.impl.ItemImpl;
-import com.googlecode.jcompare.model.StockItemStates;
 import com.googlecode.jcompare.logic.ItemPopulatorTask;
+import com.googlecode.jcompare.model.impl.ItemImpl;
 import com.googlecode.jcompare.tasks.TaskContext;
 import com.googlecode.jcompare.tasks.TaskProcessor;
 
