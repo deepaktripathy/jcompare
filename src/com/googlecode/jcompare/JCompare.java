@@ -25,7 +25,7 @@ package com.googlecode.jcompare;
 
 import com.googlecode.jcompare.filesys.FilesysElementProvider;
 import com.googlecode.jcompare.model.ItemTree;
-import com.googlecode.jcompare.tasks.MyTaskProcessor;
+import com.googlecode.jcompare.tasks.StandardTaskProcessor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,12 +44,17 @@ public class JCompare {
             }
         });
 
-        MyTaskProcessor taskProcessor = new MyTaskProcessor();
+        StandardTaskProcessor taskProcessor = new StandardTaskProcessor();
 
-        ItemTree itemTree = new ItemTree("C:/Users/tushar_joshi/Documents/test1", 
-                "C:/Users/tushar_joshi/Documents/test2", taskProcessor, 
+        ItemTree itemTree = new ItemTree("C:\\Users\\tushar_joshi\\Documents\\test1", 
+                "C:\\Users\\tushar_joshi\\Documents\\test2", taskProcessor, 
                 new FilesysElementProvider());
         itemTree.populate();
+        
+        ItemTree itemTree2 = new ItemTree("C:\\Users\\tushar_joshi\\Documents\\test1", 
+                "C:\\Users\\tushar_joshi\\Documents\\test2", taskProcessor, 
+                new FilesysElementProvider());
+        itemTree2.populate();
 
         try {
             Thread.sleep(2000);

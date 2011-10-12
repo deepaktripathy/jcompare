@@ -24,7 +24,6 @@
 package com.googlecode.jcompare.tasks;
 
 import com.googlecode.jcompare.model.ItemTree;
-import com.googlecode.jcompare.tasks.TaskProcessor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -36,7 +35,7 @@ import java.util.logging.Logger;
  *
  * @author Tushar Joshi <tusharvjoshi@gmail.com>
  */
-public class MyTaskProcessor implements TaskProcessor {
+public class StandardTaskProcessor implements TaskProcessor {
     private ExecutorService threadPool = null;
 
     public void execute(Runnable task) {
